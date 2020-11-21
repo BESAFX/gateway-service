@@ -1,0 +1,39 @@
+spring:
+  profiles:
+    active: dev
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: config-server
+      name: gateway-server
+      password: cloud
+      username: cloud
+eureka:
+  client:
+    fetch-registry: true
+    region: default
+    registryFetchIntervalSeconds: 5
+  instance:
+    hostname: localhost
+    instance-id: ${spring.application.name}:${server.port}
+    preferIpAddress: true
+
+---
+spring:
+  profiles: dev
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:9090/eureka/
+  instance:
+    ip-address: localhost
+---
+spring:
+  profiles: prod
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:9090/eureka/
+  instance:
+    ip-address: ${DOMAIN}
